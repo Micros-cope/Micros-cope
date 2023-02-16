@@ -10,7 +10,7 @@
         <el-header>
           <MyHeader></MyHeader>
         </el-header>
-        <!-- 主体显示部分 嵌套路由 -->
+        <!-- 主体显示部分 嵌套路由   -->
         <el-main>
           <router-view></router-view>
         </el-main>
