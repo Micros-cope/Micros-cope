@@ -6,13 +6,28 @@ import VueRouter from 'vue-router'	// 引入VueRouter
 import routes from './router/index'	// 引入路由器
 import store from './store'			//引入vuex
 import axios from 'axios'
+Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)  // 应用element插件
 Vue.use(VueRouter)  // 应用VueRouter插件
 const router = new VueRouter({
     routes
-  });
-Vue.prototype.$axios = axios
+});
+// 每次路由跳转，都会先执行这个方法
+router.beforeEach((to, from, next) => {
+	console.log(to.path);
+	if (to.path == '/login') {
+		sessionStorage.removeItem('user');
+		store.state.user = {}
+	}
+	let user = JSON.parse(sessionStorage.getItem('user'));
+	store.state.user = user
+	if (!user && to.path != '/login') {
+		next({ path: '/login' })
+	} else {
+		next()
+	}
+    });
 new Vue({
 	router,
 	store,

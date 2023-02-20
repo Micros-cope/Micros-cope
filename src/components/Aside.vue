@@ -32,9 +32,24 @@ export default {
   data() {
     return {
       isCollapse: true,
-      routes: routes
     }
   },
+  methods:{
+
+  },
+  computed:{
+    routes(){
+      let _r = []
+      for (let i = 0; i < routes.length; i++) {
+        if(routes[i].name !== 'login'){
+          _r.push(routes[i])
+        }
+      }
+      return _r
+    }
+  },
+  mounted(){
+  } 
 }
 </script>
 

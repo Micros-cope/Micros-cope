@@ -3,26 +3,16 @@
     <div class="l-header">
       <el-button icon="el-icon-s-grid" size="mini" @click="ChangeCollapse"></el-button>
     </div>
-    <el-button @click="drawer = true" type="primary">
-        点我打开
-      </el-button>
     <div class="r-header">
       <el-dropdown @command="handleCommand" class="head-portrait">
         <span class="el-dropdown-link">
           <img :src="HeadPortrait" >
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="a">首页</el-dropdown-item>
-          <el-dropdown-item command="b">推出登入</el-dropdown-item>
+          <el-dropdown-item command="首页">首页</el-dropdown-item>
+          <el-dropdown-item command="登出">推出登入</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-drawer
-        title="我是标题"
-        :visible.sync="drawer"
-        :direction="direction"
-        :before-close="handleClose">
-        <span>我来啦!</span>
-      </el-drawer>
     </div>
   </header>
 </template>
@@ -34,25 +24,26 @@ export default {
     return {
         HeadPortrait:require('../assets/images/toonmecom_b987ac.jpg'),
         value:'qqq',
-        drawer: false,
         direction: 'rtl',
     }
   },
   methods:{
     handleCommand(command) {
-        this.$message('click on item ' + command);
-      },
+      switch (command) {
+        case '首页':
+          this.$message('到达' + command + '!!!');
+          break;
+        case '登出':
+          this.$router.push('/login')
+          this.$message('退出登入');
+          break
+        default:
+          break;
+      }
+    },
     ChangeCollapse(){
       this.$store.commit('ChangeCollapse')
-    },
-    handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            console.log(_);
-            done();
-          })
-          .catch(_ => {console.log(_)});
-      }
+    }
   }
 };
 </script>
