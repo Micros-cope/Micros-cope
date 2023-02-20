@@ -11,11 +11,12 @@ const actions = {
 const mutations = {
        ChangeCollapse(state) {
               state.isCollapse = !state.isCollapse
-       }
+       },
 }
 
 const state = {
-       isCollapse: true
+       isCollapse: true,
+       user:{}
 }
 export default new Vuex.Store({
        actions,

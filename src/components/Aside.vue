@@ -1,57 +1,55 @@
 <template>
   <div>
-    <el-menu default-active="1-4-1" class="el-menu-vertical-demo" 
-      :collapse="$store.state.isCollapse" 
-      background-color="#303133" text-color="#fff" active-text-color="#df5544"
-      >
+    <el-menu default-active="1-4-1" class="el-menu-vertical-demo"  :collapse="$store.state.isCollapse"  background-color="#303133" text-color="#fff" active-text-color="#df5544">
       <h4>{{ $store.state.isCollapse ? "清风" : "清风与猫" }}</h4>
-      <el-menu-item class="guangquan"
-        v-for="item in nochildren" :index="item.name" :key="item.name" 
-        @click="$router.push(item.name)"
-        >
-        <i :class="'el-icon-' + item.icon"></i>
-        <span slot="title">{{ item.label }}</span>
-      </el-menu-item>
-      <!-- 有孩子 -->
-      <el-submenu class="guangquan"
-        v-for="item in haschildren" :index="item.name" :key="item.name"
-        >
-        <template slot="title">
+      <div v-for="item in routes" :key="item.name">
+        <el-menu-item class="guangquan" :index="item.name" @click="$router.push(item.name)" v-if="!item.children" >
           <i :class="'el-icon-' + item.icon"></i>
           <span slot="title">{{ item.label }}</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item 
-            v-for="(subItem) in item.children" :key="subItem.name" :index="subItem.name"  
-            @click="$router.push(subItem.name)"
-            >
-            <i :class="'el-icon-' + subItem.icon"></i>
-          {{ subItem.label }}
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+        </el-menu-item>
+  <!-- 有孩子 -->
+        <el-submenu class="guangquan" :index="item.name" v-else>
+          <template slot="title">
+            <i :class="'el-icon-' + item.icon"></i>
+            <span slot="title">{{ item.label }}</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item  v-for="(subItem) in item.children" :key="subItem.name" :index="subItem.name" @click="$router.push(subItem.name)">
+              <i :class="'el-icon-' + subItem.icon"></i>
+            {{ subItem.label }}
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+      </div>
     </el-menu>
   </div>
 </template>
 
 <script>
-import routes from '../common/js/routes'
+import routes from '../router/index'
 export default {
   name: "MyAside",
   data() {
     return {
       isCollapse: true,
-      routes: routes
     }
   },
-  computed: {
-    nochildren() {
-      return this.routes.filter((item) => !item.children);
-    },
-    haschildren() {
-      return this.routes.filter((item) => item.children);
-    },
-  }
+  methods:{
+
+  },
+  computed:{
+    routes(){
+      let _r = []
+      for (let i = 0; i < routes.length; i++) {
+        if(routes[i].name !== 'login'){
+          _r.push(routes[i])
+        }
+      }
+      return _r
+    }
+  },
+  mounted(){
+  } 
 }
 </script>
 

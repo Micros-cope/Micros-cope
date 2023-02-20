@@ -1,59 +1,62 @@
 <template>
-  <div>
-    <el-container style="height: 100vh">
-      <!-- 左侧导航栏 -->
-      <el-aside width="auto">
-        <MyAside></MyAside>
-      </el-aside>
-      <!-- 右半部分 -->
-      <el-container>
-        <el-header>
-          <MyHeader></MyHeader>
-        </el-header>
-        <!-- 主体显示部分 嵌套路由   -->
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-      </el-container>
-    </el-container>
+  <div id="app">
+    <Transition>
+      <router-view v-if="!user"></router-view>
+      <home v-else></home>
+    </Transition>
   </div>
 </template>
 <script>
-import MyAside from "./components/Aside.vue";
-import MyHeader from "./components/MyHeader.vue";
+import home from './pages/Home.vue';
 export default {
   name: "App",
-  components: {
-    MyAside,
-    MyHeader
+  components:{
+    home
   },
   data() {
     return {
-      isCollapse: true,
+        // user:$store.state.user
     };
   },
-  methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
+  computed:{
+    user() {
+      return this.$store.state.user
+  }
   },
+  methods: {
+  
+  },
+  mounted(){
+    
+  }
 };
 </script>
 <style lang="less" >
-* {
-  padding: 0;
-  margin: 0;
+body {
+	margin: 0px;
+	padding: 0px;
+	/*background: url(assets/bg1.jpg) center !important;
+		background-size: cover;*/
+	// background: #1F2D3D;
+	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+	font-size: 14px;
+	-webkit-font-smoothing: antialiased;
 }
-
-.el-header {
-  background-color: rgb(17, 17, 17);
+.clear{
+	clear: both;
+	zoom: 1;
+	overflow: hidden;
 }
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+.clear::before{
+	content: '';
+}
+.clear::after{
+	content: '';
+}
+#app {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	width: 100%;
 }
 </style>
